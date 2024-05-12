@@ -1,0 +1,115 @@
+<% layout('layouts/plate')%>
+<div class="container mb-3">
+  <h1 class="text-center">Create Survey</h1>
+</div>
+
+
+<div class="container">
+    <form action="/surveys/new" method="POST" class="validated-form" novalidate>
+        <div class="mx-3 mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" id="title" name="title" class="form-control" required >
+        </div>
+        <div class="mx-3 mb-3">
+            <label for="description" class="form-label">Description</label>
+            <input type="text" name="description" class="form-control" id="description" required>
+        </div>
+        <div class="mx-3 mb-3">  
+          <label for="category" class="form-label">Please select survey category.</label>
+          <select class="form-select form-select-lg mb-3" aria-label="Large select example" name="category" required>
+            <option value="customer">Customer</option>
+            <option value="education">Education</option>
+            <option value="employees">Employees</option>
+            <option value="forms">Forms</option>
+            <option value="events">Events</option>
+            <option value="healtcare">Healthcare</option>
+            <option value="nonprofit">Nonprofit</option>
+            <option value="other">Other</option>
+          </select>
+      </div>
+        <button class="btn btn-success mx-3 mb-3 ">Submit</button>
+        <div class="mx-3 mb-3 text-center">
+            <h4>Questions</h4>
+        </div>
+        <div id="questionsContainer" class="mx-3 mb-3">
+            <!-- -->
+
+        </div>
+        <button class="btn btn-primary mx-3 mb-3" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" type="button">Add Question</button>
+    </form>
+</div>
+<div class="modal fade" id="exampleModalToggle" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header ">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Choose your question type</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body bg-body-light">
+        <div class="container text-center">
+          <div class="row">
+            <div class="col">
+              <div class="btn-group" role="group" aria-label="Question Type">
+                <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal" aria-label="Close" onclick="addQuestion('single')">Single-answer question</button>
+                <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal" aria-label="Close" onclick="addQuestion('multiple')">Multiple-answer question</button>
+                <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal" aria-label="Close" onclick="addQuestion('open')">Open-ended question</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+    let questionIndex = 1;
+
+    function addQuestion(questionType) {
+      const container = document.getElementById('questionsContainer');
+      const questionDiv = document.createElement('div');
+      const questionIndex = container.children.length + 1;
+
+      if(questionType === "single"){
+        questionDiv.innerHTML = `
+        <div class="mx-3 mb-3">
+          <label for="singleChoiceQuestion${questionIndex}" class="form-label">Question ${questionIndex}:</label>
+          <input class="form-control" type="text" id="singleChoiceQuestion${questionIndex}" name="singleChoiceQuestion[${questionIndex}][questionText]" required>
+        </div>
+        <div class="mx-3 mb-3">
+          <p class="">"Example: Options include 'Yes, Maybe, No'"</p>
+          <label class="form-label" for="singleChoiceQuestion${questionIndex}">Options (comma separated):</label>
+          <input class="form-control" type="text" id="singleChoiceQuestion${questionIndex}" name="singleChoiceQuestion[${questionIndex}][options]" required>
+        </div>
+      `
+      } 
+      else if(questionType === "multiple"){
+        questionDiv.innerHTML = `
+        <div class="mx-3 mb-3">
+          <label for="multipleChoiceQuestion${questionIndex}" class="form-label">Question ${questionIndex}:</label>
+          <input class="form-control" type="text" id="multipleChoiceQuestion${questionIndex}" name="multipleChoiceQuestion[${questionIndex}][questionText]" required>
+        </div>
+        <div class="mx-3 mb-3">
+          <p class="">"Example: Options include 'Yes, Maybe, No'"</p>
+          <label class="form-label" for="multipleChoiceQuestion${questionIndex}">Options (comma separated):</label>
+          <input class="form-control" type="text" id="multipleChoiceQuestion${questionIndex}" name="multipleChoiceQuestion[${questionIndex}][options]" required>
+        </div>
+      `
+      }else if(questionType === "open"){ 
+        questionDiv.innerHTML = `
+        <div class="mx-3 mb-3">
+          <label for="openEndedQuestion${questionIndex}" class="form-label">Question ${questionIndex}:</label>
+          <input class="form-control" type="text" id="openEndedQuestion${questionIndex}" name="openEndedQuestion[${questionIndex}][questionText]" required>
+        </div>
+      `
+      }
+
+      ;
+
+  container.appendChild(questionDiv);
+}
+</script>

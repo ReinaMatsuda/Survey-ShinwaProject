@@ -1,0 +1,58 @@
+<% layout('layouts/plate')%>
+<div class="container text-center">
+  <div class="row">
+      <div class="col">
+          <h1 class="text-center mb-3">Surveys</h1>
+      </div>
+  </div>
+  <div class="row mb-4">
+      <div class="col">
+          <button class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvas1" role="button" aria-controls="offcanvas1">
+              Categories 
+          </button>
+      </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+      <% for (let i = 0 ; i < surveys.length; i++) { %>
+          <div class="col-md-4 col-sm-6 mb-3">
+              <div class="card shadow-lg rounded text-center">
+                <div class="card-header">
+                  <h5 class="card-title mt-2"><%= surveys[i].title %></h5>
+                </div>
+                  <div class="card-body">
+                      <div class="accordion accordion-flush" id="accordionFlush<%=i%>">
+                        <div class="accordion-item">
+                          <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse<%=i%>" aria-expanded="false" aria-controls="flush-collapse<%=i%>">
+                              Description
+                            </button>
+                          </h2>
+                          <div id="flush-collapse<%=i%>" class="accordion-collapse collapse" data-bs-parent="#accordionFlush<%=i%>">
+                            <div class="accordion-body"><%= surveys[i].description %></div>
+                          </div>
+                        </div>
+                      </div>
+                      <a href="/surveys/<%= surveys[i]._id %>" class="btn btn-outline-primary mt-3">Start Survey</a>
+                  </div>
+              </div>
+          </div>
+      <% } %>
+  </div>
+</div>
+
+
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvas1" aria-labelledby="offcanvas1Label">
+  <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvas1Label">Categories</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+      <div class="list-group">
+          <% for( let category of categories) { %>
+              <a href="/categories/<%= category.name %>" class="text-capitalize list-group-item list-group-item-action"><%= category.name %></a>
+          <% } %>
+      </div>
+  </div>
+</div>

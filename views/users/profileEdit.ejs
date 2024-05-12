@@ -1,0 +1,32 @@
+<% layout('layouts/plate')%>
+<div class="container-md col-6">
+    <div class="card shadow-lg bg-body-tertiary rounded ">
+        <div class="card-header">
+            Edit Profile
+        </div>
+        <div class="card-body">
+            <form action="/user/<%= profile._id %>?_method=PUT" method="POST" class="validated-form" novalidate enctype="multipart/form-data">
+                <div class="mx-3 mb-3">
+                    <label for="description" class="form-label"> Description </label>
+                    <input type="description" name="profile[profileDescription]" id="description" class="form-control" value="<%= profile.profileDescription %>" required>
+                    <div class="valid-feedback">
+                        Looks Good!
+                    </div>
+                </div>
+                <div class="mx-3 mb-3">
+                    <label for="image" class="form-label"> Avatar </label>
+                    <input type="file" name="image" id="image" class="form-control" required>
+                    <div class="valid-feedback">
+                        Looks Good!
+                    </div>
+                </div>
+                <div class="container">
+                    <button class="btn btn-success shadow-lg rounded-pill mb-3">Save</button>
+                </div>
+            </form>
+            <form action="/user/<%= profile._id %>/profile" method="get">
+                <button class="btn btn-danger ms-2 mb-3 shadow-lg rounded-pill" >Cancel</button>
+            </form>
+        </div>
+    </div>
+</div>

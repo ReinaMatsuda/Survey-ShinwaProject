@@ -1,0 +1,96 @@
+<% layout('layouts/plate') %>
+<div class="container mb-3 col-9">
+
+    <h1 class="text-center mb-3"><%= survey.title %></h1>
+
+
+    <p class="text-center"><%= survey.description %></p>
+
+    <footer class="blockquote-footer">Created by the <cite title="Source Title"><a href="/user/<%= survey.author.profile._id %>/profile"><%= survey.author.username %></a></cite></footer>
+
+        <form action="/surveys/<%= survey._id %>" method="POST">
+
+                <% for(let question of survey.singleChoiceQuestion) {%>
+                    <div class="card mb-3 ">
+                        <div class="card-header">
+                            <%= question.questionText %> 
+                        </div>
+                        <div class="card-body">
+                            <label for="inp">
+                                <ul class="list-group">
+                                    <% for(let option of question.options) { %>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="<%= question._id %>" id="flexRadioDefault1" value="<%= option._id %>" required>
+                                            <label class="form-check-label user-select-none" for="flexRadioDefault1">
+                                                <%= option.opName %>
+                                            </label>
+                                        </div>
+                                    <% } %>
+                                </ul>
+                            </label>
+                        </div>
+                    </div>
+                <% } %>
+
+                <% for(let question of survey.multipleChoiceQuestion) { %>
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <%= question.questionText %> 
+                        </div>
+                        <div class="card-body">
+                            <% for(let option of question.options) { %>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="<%= question._id %>" id="<%= option._id %>" value="<%= option._id %>" onchange="checkAtLeastOne(this)">
+                                    <label class="form-check-label user-select-none" for="<%= option._id %>">
+                                        <%= option.opName %>
+                                    </label>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+                <% } %>
+                <% for(let question of survey.openEndedQuestion) { %>
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <%= question.questionText %> 
+                        </div>
+                        <div class="card-body">
+                            <label for="openEndedInput<%= question._id %>">
+                                <input type="text" class="form-control" id="openEndedInput<%= question._id %>" name="<%= question._id %>" placeholder="Enter your answer here" required>
+                            </label>
+                        </div>
+                    </div>
+                <% } %>
+            <div class="container mb-3">
+                <button class="btn btn-success mu-2" id="surveySubmitBtn" >Sumbit</button>
+            </div>
+        </form>
+        <div class="container mb-3">
+            <% if(currentUser && survey.author.equals(currentUser._id)) { %>
+                <form action="/surveys/<%= survey._id %>?_method=DELETE" method="POST">
+                    <button class="btn btn-danger mb-3">Delete</button>
+                </form>
+                <% if(survey.answers[0]) {%>
+                    <form action="<%= survey._id %>/surveydata" method="get">
+                        <button class="btn btn-success mb-3">Survey Data </button>
+                    </form>
+                <% } %>
+            <% } %>
+        </div>
+</div>
+    
+<script>
+    function checkAtLeastOne(checkbox) {
+        var checkboxes = document.getElementsByName(checkbox.name);
+        var atLeastOneChecked = false;
+        checkboxes.forEach(function(currentCheckbox) {
+            if (currentCheckbox.checked) {
+                atLeastOneChecked = true;
+            }
+        });
+
+        if (!atLeastOneChecked) {
+            checkbox.checked = true; // En az bir tane seçilmiş olmalı
+        }
+    }
+</script>

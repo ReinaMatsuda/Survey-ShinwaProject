@@ -1,0 +1,20 @@
+<% layout('layouts/plate')%>
+<% if (surveys[0]) { %>
+    <h1 class="text-center text-capitalize"><%= surveys[0].category %> surveys</h1>
+    <div class="container text-center">
+        <div class="row">
+            <% for (let survey of surveys) { %>
+                <div class="col-md-4 col-sm-6 mb-3">
+                    <div class="card shadow-lg p-3 rounded" style="width: 100%;">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= survey.title %></h5>
+                            <a href="/surveys/<%= survey._id %>" class="btn btn-primary">Start Survey</a>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    </div>
+<% } else {%>
+<h2 class="text-center text-capitalize">No surveys have been found</h2>
+<% } %>

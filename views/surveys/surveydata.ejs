@@ -1,0 +1,103 @@
+<% layout('layouts/plate') %>
+<div class="container">
+  <h2 ><%= survey.title %></h2>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+
+        const dataSC = <%- JSON.stringify(dataSC) %>
+        const dataMC = <%- JSON.stringify(dataMC) %>
+
+        google.charts.load('current', {'packages':['bar']});
+        google.charts.setOnLoadCallback(drawChart); 
+
+        function drawChart() {
+          const options = {
+            chart: {},
+          };
+
+          dataSC.forEach((data, index) => {
+            const chartDiv = document.getElementById(`chartSQ${index + 1}`);
+            const chart = new google.charts.Bar(chartDiv);
+            chart.draw(google.visualization.arrayToDataTable(data), google.charts.Bar.convertOptions(options));
+          });
+
+          dataMC.forEach((data, index) => {
+            const chartDiv = document.getElementById(`chartMQ${index + 1}`);
+            const chart = new google.charts.Bar(chartDiv);
+            chart.draw(google.visualization.arrayToDataTable(data), google.charts.Bar.convertOptions(options));
+          });
+
+        }
+
+  </script>
+
+  <div class="container mb-3">
+    <% if (survey.singleChoiceQuestion[0]) { %>
+      <% survey.singleChoiceQuestion.forEach((question, index) => { %>
+        <div class="row mb-4">
+          <div class="col">
+            <div id="chartSQ<%= index + 1 %>" style="width: 100%; height: 400px;"></div>
+          </div>
+        </div>
+      <% }) %>
+    <% } %>
+
+    <% if (survey.multipleChoiceQuestion[0]) { %>
+      <% survey.multipleChoiceQuestion.forEach((question, index) => { %>
+        <div class="row mb-4">
+          <div class="col">
+            <div id="chartMQ<%= index + 1 %>" style="width: 100%; height: 400px;"></div>
+          </div>
+        </div>
+      <% }) %>
+    <% } %>
+  </div>
+
+  <div class="container mt-3 mb-3">
+    <h2 class="text-center mb-3">All Data</h2>
+    <% for( let i = 0; i < survey.answers.length ; i++ ) { %>
+      <div class="accordion accordion-flush" id="accordionFlushDetailedData<%=i %>">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseDetailedData<%=i %>" aria-expanded="false" aria-controls="flush-collapseDetailedData<%=i %>">
+              Data<%=i + 1 %>
+            </button>
+          </h2>
+          <div id="flush-collapseDetailedData<%=i %>" class="accordion-collapse collapse" data-bs-parent="#accordionFlushDetailedData<%=i %>">
+            <div class="accordion-body">
+              <ul class="list-group list-group-flush">
+                <h5 class="mb-3 text-center">Single choice question</h5>
+                <li class="list-group-item">
+                  <% for( let j = 0; j < resultSCT[i].length; j++ ) { %>
+                    <div class="container text-center">
+                      <h6 class="mb-3"> <%= resultSCT[i][j].text %></h6>
+                      <p class="mb-3"><%= resultSCT[i][j].option.opName %></p>
+                    </div>
+                  <% } %>
+                </li>
+                <h5 class="mb-3 text-center">Multiple choice question</h5>
+                <li class="list-group-item">
+                  <% for( let j = 0; j < resultMCT[i].length; j++ ) { %>
+                    <div class="container text-center">
+                      <h6 class="mb-3"> <%= resultMCT[i][j].text %></h6>
+                      <p class="mb-3"><%= resultMCT[i][j].option.opName %></p>
+                    </div>
+                  <% } %>
+                </li>
+                <h5 class="mb-3 text-center">Open ended question</h5>
+                <li class="list-group-item">
+                  <% for( let j = 0; j < dataOET[i].length; j++ ) { %>
+                    <div class="container text-center">
+                      <h6 class="mb-3"><%= dataOET[i][j].text %></h6>
+                      <p><%= dataOET[i][j].answer %></p>
+                    </div>
+                  <% } %>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% } %>
+  </div>
+</div>
