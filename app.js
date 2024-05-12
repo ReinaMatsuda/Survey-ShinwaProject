@@ -66,7 +66,7 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 app.use(flash());
 
-//dogrulama
+//Authenticate
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
