@@ -1,6 +1,11 @@
 <% layout('layouts/plate') %>
 <div class="container">
-  <h2 ><%= survey.title %></h2>
+    <div class="container mb-4">
+    <div class="text-center">
+      <h2><%= survey.title %></h2>
+      <hr>
+    </div>
+  </div>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script type="text/javascript">
 
@@ -54,7 +59,10 @@
   </div>
 
   <div class="container mt-3 mb-3">
-    <h2 class="text-center mb-3">All Data</h2>
+        <div class="container mb-4">
+      <h2 class="text-center mb-3">All Data</h2>
+      <hr>
+    </div>
     <% for( let i = 0; i < survey.answers.length ; i++ ) { %>
       <div class="accordion accordion-flush" id="accordionFlushDetailedData<%=i %>">
         <div class="accordion-item">
