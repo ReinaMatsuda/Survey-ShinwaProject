@@ -261,6 +261,6 @@ module.exports.categoryDetails = async (req, res) => {};
 module.exports.deleteSurvey = async (req, res) => {
   const { id } = req.params;
   await Survey.findByIdAndDelete(id);
-  req.flash("success", "Deleted Survey");
+  req.flash("success", "Survey Deleted");
   res.redirect("/surveys");
 };
