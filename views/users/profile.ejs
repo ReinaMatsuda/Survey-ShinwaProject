@@ -13,6 +13,7 @@
                         <div class="mt-3">
                     <% } %>
                       <h4><%= user.username %></h4>
+                      <p><%= profile.profileDescription %></p>
                       <% if(currentUser && currentUser.profile == profile.id)  {%>
                         <a class="btn btn-success" href="/user/<%= profile.id %>/profile/edit" >Edit profile</a>
                         <% } %>
