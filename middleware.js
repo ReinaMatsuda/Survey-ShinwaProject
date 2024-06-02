@@ -61,6 +61,5 @@ module.exports.isSurveySubmited = async (req, res, next) => {
     req.flash("error", "You have already submitted this survey");
     return res.redirect("/surveys");
   }
-  console.log(answer);
   next();
 };
